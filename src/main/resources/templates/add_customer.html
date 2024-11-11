@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить нового покупателя</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="email"], input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button, .mainpage-button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
+    button:hover, .mainpage-button:hover {
+      background-color: #45a049;
+    }
+    .mainpage-button {
+      background-color: #2196F3;
+    }
+    .mainpage-button:hover {
+      background-color: #1976D2;
+    }
+    a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Добавить нового покупателя</h1>
+</header>
+
+<div class="container">
+  <form action="/customers/add" method="POST">
+
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" name="firstName" required placeholder="Введите имя">
+
+    <label for="lastName">Фамилия:</label>
+    <input type="text" id="lastName" name="lastName" required placeholder="Введите фамилию">
+
+    <label for="phoneNumber">Номер телефона:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="Введите номер телефона">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required placeholder="Введите почту">
+
+    <label for="occupation">Город проживания:</label>
+    <input type="text" id="occupation" name="occupation" placeholder="Город проживания">
+
+    <label for="birthDate">День рождения:</label>
+    <input type="date" id="birthDate" name="birthDate" required>
+
+    <button type="submit">Сохранить</button>
+  </form>
+
+  <br>
+  <a href="/customers/list">Вернуться</a>
+  <br><br>
+  <a href="http://localhost:1010" class="mainpage-button">Главная страница</a>
+</div>
+
+</body>
+</html>

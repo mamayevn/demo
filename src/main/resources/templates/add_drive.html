@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тип привода</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          margin: 0;
+          padding: 0;
+        }
+        header {
+          background-color: #4CAF50;
+          color: white;
+          padding: 20px;
+          text-align: center;
+        }
+        h1 {
+          margin: 0;
+        }
+        .container {
+          max-width: 600px;
+          margin: 20px auto;
+          background-color: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+          font-weight: bold;
+          margin-top: 10px;
+        }
+        input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          margin: 8px 0 20px 0;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #45a049;
+        }
+        .link-container {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 15px;
+        }
+        a {
+          padding: 10px 20px;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+          font-weight: bold;
+          text-align: center;
+        }
+        .main-link {
+          background-color: #2196F3;
+        }
+        .main-link:hover {
+          background-color: #0b7dda;
+        }
+        .list-link {
+          background-color: #f57c00;
+        }
+        .list-link:hover {
+          background-color: #e65100;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Добавить тип привода</h1>
+</header>
+
+<div class="container">
+
+    <form action="/drives/add" method="post">
+        <label for="name">Тип привода:</label>
+        <input type="text" id="name" name="name" required placeholder="Введите тип привода">
+        <br><br>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <div class="link-container">
+        <a href="http://localhost:1010" class="main-link">Главная страница</a>
+        <a href="http://localhost:1010/drives/list" class="list-link">Список типов привода</a>
+    </div>
+
+</div>
+
+</body>
+</html>

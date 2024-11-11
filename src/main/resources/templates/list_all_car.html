@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car List</title>
+</head>
+<body>
+<h1>Car List</h1>
+
+<h2>Existing Cars</h2>
+<ul>
+    <th:block th:each="car : ${cars}">
+        <li>
+            <span th:text="${car.brand}"></span> -
+            <span th:text="${car.model}"></span> -
+            <span th:text="${car.engineVolume}"></span> -
+            <span th:text="${car.year}"></span> -
+            <span th:text="${car.price}"></span>
+            <a th:href="@{/{id}/edit_car(id=${car.id})}">Edit</a>
+            <form th:action="@{/{id}/delete_car(id=${car.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </th:block>
+</ul>
+
+<a href="/add_car">Add New Car</a>
+
+</body>
+</html>

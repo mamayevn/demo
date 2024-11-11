@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить модель</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .link-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Добавить модель</h1>
+</header>
+
+<div class="container">
+    <form action="/models/add_model" method="post">
+        <label for="name">Модель:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="brand">Бренд:</label>
+        <select id="brand" name="brand.id" required>
+            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+        </select>
+
+        <label for="drive">Тип привода:</label>
+        <select id="drive" name="drive.id" required>
+            <option th:each="drive : ${drives}" th:value="${drive.id}" th:text="${drive.name}"></option>
+        </select>
+
+        <label for="volume">Объем:</label>
+        <select id="volume" name="volume.id" required>
+            <option th:each="volume : ${volumes}" th:value="${volume.id}" th:text="${volume.name}"></option>
+        </select>
+
+        <label for="transmission">Трансмиссия:</label>
+        <select id="transmission" name="transmission.id" required>
+            <option th:each="transmission : ${transmissions}" th:value="${transmission.id}" th:text="${transmission.name}"></option>
+        </select>
+
+        <label for="fuelType">Fuel Type:</label>
+        <select id="fuelType" name="fuelType.id" required>
+            <option th:each="fuelType : ${fuelTypes}" th:value="${fuelType.id}" th:text="${fuelType.name}"></option>
+        </select>
+
+        <button type="submit">Добавить</button>
+    </form>
+
+    <div class="button-container">
+        <a href="/models/model_list" class="link-button">Список моделей</a>
+        <a href="http://localhost:1010" class="link-button">Главная страница</a>
+    </div>
+</div>
+
+</body>
+</html>

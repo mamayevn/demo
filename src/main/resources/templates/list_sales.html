@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        a {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            text-align: center;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Список Продаж</h1>
+<table>
+    <tr>
+        <th>Покупатель</th>
+        <th>Продавец</th>
+        <th>Модель</th>
+        <th>Дата продажи</th>
+        <th>Стоимость</th>
+    </tr>
+    <tr th:each="sale : ${sales}">
+        <td th:text="${sale.customer.firstName} + ' ' + ${sale.customer.lastName}"></td>
+        <td th:text="${sale.salesPerson.firstName} + ' ' + ${sale.salesPerson.lastName}"></td>
+        <td th:text="${sale.carModel.name}"></td>
+        <td th:text="${sale.saleDate}"></td>
+        <td th:text="${sale.salePrice}"></td>
+    </tr>
+</table>
+<a href="/sales/add">Добавить</a>
+<a href="http://localhost:1010" class="back-btn">Главная страница</a>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        a:hover {
+            background-color: #218838;
+        }
+        .btn-main {
+            background-color: #007bff;
+        }
+        .btn-main:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Список покупателей</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Номер телефона</th>
+        <th>Email</th>
+        <th>Город</th>
+        <th>День рождения</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Перебираем всех клиентов и выводим их данные -->
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.firstName}">First Name</td>
+        <td th:text="${customer.lastName}">Last Name</td>
+        <td th:text="${customer.phoneNumber}">Phone Number</td>
+        <td th:text="${customer.email}">Email</td>
+        <td th:text="${customer.occupation}">Occupation</td>
+        <td th:text="${customer.birthDate}">Birth Date</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Кнопки для перехода на страницы -->
+<div style="text-align: center;">
+    <a href="/customers/add">Добавить нового покупателя</a>
+    <a href="http://localhost:1010" class="btn-main">Вернутся на главную страницу</a>
+</div>
+
+</body>
+</html>

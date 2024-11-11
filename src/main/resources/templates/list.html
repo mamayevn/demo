@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска автомобилей</title>
+    <style>
+        /* Общий стиль страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        /* Стили контейнера для списка автомобилей */
+        .car-list {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        /* Оформление элементов списка */
+        .car-item {
+            background-color: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Стили текста для отображения информации */
+        .car-details {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Кнопка для возврата на предыдущую страницу */
+        .back-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Найденные автомобили</h2>
+
+<ul class="car-list">
+    <th:block th:each="car : ${cars}">
+        <li class="car-item">
+            <div class="car-details">
+                <strong th:text="${car.brand}"></strong> -
+                <span th:text="${car.model}"></span>,
+                <span th:text="${car.year}"></span> г. -
+                <span th:text="${car.price} + ' KZT'"></span>
+            </div>
+        </li>
+    </th:block>
+</ul>
+
+<a href="/main" class="back-button">Вернуться на главную</a>
+
+</body>
+</html>

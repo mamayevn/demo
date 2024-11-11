@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список моделей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .link-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Список моделей</h1>
+</header>
+
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>Бренд</th>
+            <th>Модель</th>
+            <th>Объем</th>
+            <th>Трансмиссия</th>
+            <th>Тип привод</th>
+            <th>Тип топлива</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="carModel : ${models}">
+            <td th:text="${carModel.brand.name}"></td>
+            <td th:text="${carModel.name}"></td>
+            <td th:text="${carModel.volume}"></td>
+            <td th:text="${carModel.transmission}"></td>
+            <td th:text="${carModel.drive}"></td>
+            <td th:text="${carModel.fuelType}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a href="/models/add_model" class="link-button">Добавить модель</a>
+        <a href="http://localhost:1010" class="link-button">Главная страница</a>
+    </div>
+</div>
+
+</body>
+</html>

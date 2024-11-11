@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Brand</title>
+</head>
+<body>
+<h1>Edit Brand</h1>
+
+<!-- Форма для редактирования бренда -->
+<form action="/edit_brand" method="POST">
+    <input type="hidden" name="id" th:value="${brand.id}" /> <!-- Скрытое поле для id бренда -->
+
+    <label for="name">Brand Name:</label>
+    <input type="text" id="name" name="name" th:value="${brand.name}" required placeholder="Enter brand name">
+    <br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<br>
+<a href="/add_brand">Go to Add Brand Page</a>
+</body>
+</html>

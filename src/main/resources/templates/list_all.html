@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person List</title>
+</head>
+<body>
+<h1>Список клиентов</h1>
+
+<h2>Добавленный список</h2>
+<ul>
+    <th:block th:each="person : ${persons}">
+        <li>
+            <span th:text="${person.name}"></span> -
+            <span th:text="${person.age}"></span> -
+            <span th:text="${person.email}"></span>
+            <a th:href="@{/{id}/edit(id=${person.id})}">Edit</a>
+            <form th:action="@{/{id}/delete(id=${person.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </th:block>
+</ul>
+
+</body>
+</html>
