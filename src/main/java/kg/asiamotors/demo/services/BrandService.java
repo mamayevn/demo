@@ -23,8 +23,7 @@ public class BrandService {
     public List<Brand> findAll() {
         return brandRepository.findAll();
     }
-    // Метод для поиска бренда по id
     public Brand findById(int id) {
-        return brandRepository.findById(id).orElse(null); // Если бренд не найден, возвращаем null
+        return brandRepository.findById(id).orElse(null);
     }
 }

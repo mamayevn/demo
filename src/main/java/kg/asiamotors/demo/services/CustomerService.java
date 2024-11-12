@@ -12,22 +12,18 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    // Метод для сохранения покупателя
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
     }
 
-    // Метод для получения всех покупателей
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }
 
-    // Метод для получения покупателя по ID
     public Customer findCustomerById(int id) {
         return customerRepository.findById(id).orElse(null);
     }
 
-    // Метод для удаления покупателя по ID
     public void deleteCustomerById(int id) {
         customerRepository.deleteById(id);
     }

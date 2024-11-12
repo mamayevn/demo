@@ -17,7 +17,7 @@ public class PersonService {
     }
 
     public List<Person> findAll() {
-        return personRepository.findAll(); // вернем то что вернет вызов метода findAll на  PeopleRepository
+        return personRepository.findAll();
     }
 
     public Person findOne(int id) {
@@ -40,6 +40,6 @@ public class PersonService {
         personRepository.deleteById(id);
     }
     public List<Person> findByName(String name) {
-        return personRepository.findByNameContainingIgnoreCase(name); // используй метод репозитория
+        return personRepository.findByNameContainingIgnoreCase(name);
     }
 }

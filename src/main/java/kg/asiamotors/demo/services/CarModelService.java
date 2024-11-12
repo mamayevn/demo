@@ -8,9 +8,6 @@ import java.util.List;
 
 @Service
 public class CarModelService {
-
-
-
     private CarModelRepository carModelRepository;
 
     public CarModelService(CarModelRepository carModelRepository) {

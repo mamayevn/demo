@@ -36,10 +36,10 @@ public class CarModelController {
     public String showAddModelForm(Model model) {
         model.addAttribute("carModel", new CarModel());
         model.addAttribute("brands", brandService.findAll());
-        model.addAttribute("volumes", volumeService.findAll());  // Получаем все объемы
-        model.addAttribute("transmissions", transmissionService.findAll());  // Получаем все коробки передач
-        model.addAttribute("drives", driveService.findAll());  // Получаем все приводы
-        model.addAttribute("fuelTypes", fuelTypeService.findAll());  // Получаем все типы топлива
+        model.addAttribute("volumes", volumeService.findAll());
+        model.addAttribute("transmissions", transmissionService.findAll());
+        model.addAttribute("drives", driveService.findAll());
+        model.addAttribute("fuelTypes", fuelTypeService.findAll());
         return "add_model";
     }
 

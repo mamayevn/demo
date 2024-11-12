@@ -53,7 +53,6 @@ public class SaleController {
         model.addAttribute("sales", saleService.findAllSales());
         return "list_sales";
     }
-
 }
 
 

@@ -1,7 +1,6 @@
 package kg.asiamotors.demo.models;
 
 import jakarta.persistence.*;
-import kg.asiamotors.demo.repasitories.BrandRepository;
 
 @Entity
 public class CarModel {
@@ -17,19 +16,19 @@ public class CarModel {
 
     @ManyToOne
     @JoinColumn(name = "volume_id")
-    private Volume volume;  // Изменили тип с String на Volume
+    private Volume volume;
 
     @ManyToOne
     @JoinColumn(name = "transmission_id")
-    private Transmission transmission;  // Изменили тип с String на Transmission
+    private Transmission transmission;
 
     @ManyToOne
     @JoinColumn(name = "drive_id")
-    private Drive drive;  // Изменили тип с String на Drive
+    private Drive drive;
 
     @ManyToOne
     @JoinColumn(name = "fuel_type_id")
-    private FuelType fuelType;  // Изменили тип с String на FuelType
+    private FuelType fuelType;
 
     public int getId() {
         return id;

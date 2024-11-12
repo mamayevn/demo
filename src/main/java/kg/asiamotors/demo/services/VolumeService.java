@@ -21,8 +21,8 @@ public class VolumeService {
     public List<Volume> findAll() {
         return volumeRepository.findAll();
     }
-    // Метод для поиска бренда по id
+
     public Volume findById(int id) {
-        return volumeRepository.findById(id).orElse(null); // Если бренд не найден, возвращаем null
+        return volumeRepository.findById(id).orElse(null);
     }
 }

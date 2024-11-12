@@ -21,7 +21,6 @@ public class DriveService {
     public List<Drive> findAll() {
         return driveRepository.findAll();
     }
-    // Метод для поиска бренда по id
     public Drive findById(int id) {
         return driveRepository.findById(id).orElse(null);
     }

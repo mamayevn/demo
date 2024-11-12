@@ -21,8 +21,7 @@ public class TransmissionService {
     public List<Transmission> findAll() {
         return transmissionRepository.findAll();
     }
-    // Метод для поиска бренда по id
     public Transmission findById(int id) {
-        return transmissionRepository.findById(id).orElse(null); // Если бренд не найден, возвращаем null
+        return transmissionRepository.findById(id).orElse(null);
     }
 }

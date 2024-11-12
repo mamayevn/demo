@@ -21,11 +21,11 @@ public class CarService {
         return carRepository.findByBrand(brand);
     }
     public List<Car> findByPersonId (int personId) {
-        return carRepository.findByPersonId(personId); //получаем список авто для конкретного человека
+        return carRepository.findByPersonId(personId);
     }
 
     public List<Car> findAll() {
-        return carRepository.findAll(); // вернем то что вернет вызов метода findAll на  PeopleRepository
+        return carRepository.findAll();
     }
     public Car findOne(int id) {
         Optional<Car> foundCar = carRepository.findById(id);

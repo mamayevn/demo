@@ -19,8 +19,7 @@ public class Car {
     @Min(value = 0, message = "Цена должна быть > 0")
     private double price;
 
-    public Car() {
-    }
+    public Car() {}
 
     public Car(int year, String model, String brand) {
         this.year = year;

@@ -21,7 +21,6 @@ public class FuelTypeService {
     public List<FuelType> findAll() {
         return fuelTypeRepository.findAll();
     }
-    // Метод для поиска бренда по id
     public FuelType findById(int id) {
         return fuelTypeRepository.findById(id).orElse(null); // Если бренд не найден, возвращаем null
     }

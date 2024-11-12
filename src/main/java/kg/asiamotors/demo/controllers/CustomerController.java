@@ -17,21 +17,18 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    // Показать форму для добавления покупателя
     @GetMapping("/add")
     public String showAddCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "add_customer";
     }
 
-    // Обработать сохранение нового покупателя
     @PostMapping("/add")
     public String addCustomer(@ModelAttribute Customer customer) {
         customerService.saveCustomer(customer);
         return "redirect:/customers/list";
     }
 
-    // Показать список всех покупателей
     @GetMapping("/list")
     public String listCustomers(Model model) {
         model.addAttribute("customers", customerService.findAllCustomers());

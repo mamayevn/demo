@@ -32,15 +32,15 @@ public class PersonController {
         return "main";
     }
 
-    @GetMapping("/{id}/persons_cars") // Путь для отображения автомобилей конкретного человека
+    @GetMapping("/{id}/persons_cars")
     public String showCars(@PathVariable("id") int id, Model model) {
         Person person = personService.findOne(id);
         if (person != null) {
-            List<Car> cars = carService.findByPersonId(id);  // Получаем машины данного человека
+            List<Car> cars = carService.findByPersonId(id);
             model.addAttribute("person", person);
             model.addAttribute("cars", cars);
         }
-        return "persons_cars";  // Новая страница для отображения автомобилей
+        return "persons_cars";
     }
 
     @PostMapping("/new")
@@ -60,35 +60,30 @@ public class PersonController {
         return "list_all";
     }
 
-        @GetMapping("/{id}/edit") // путь для редактирования конкретного человека
+        @GetMapping("/{id}/edit")
     public String updatePerson(Model model, @PathVariable("id") int id, @ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
-        person.setId(id); // устанавливаем ID
-        personService.update(id, person); // обновляем человека
+        person.setId(id);
+        personService.update(id, person);
         return "redirect:/main";
     }
 
-//    @GetMapping("{id}/edit")
-//    public String getEditForm(@PathVariable("id") int id, Model model) {
-//        return "edit";
-//    }
-
-    @PostMapping("/{id}/edit") // обработка POST запроса на редактирование
+    @PostMapping("/{id}/edit")
     public String updatePerson(@PathVariable("id") int id, @ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "main"; // возвращаем к форме, если есть ошибки
+            return "main";
         }
-        person.setId(id); // устанавливаем ID
-        personService.update(id, person); // обновляем человека
-        return "redirect:/main"; // перенаправляем на главную страницу
+        person.setId(id);
+        personService.update(id, person);
+        return "redirect:/main";
     }
 
-            @PostMapping("/{id}/delete") // удаление человека
+            @PostMapping("/{id}/delete")
             public String delete(@PathVariable("id") int id) {
-                personService.delete(id); // удаляем человека по ID
-                return "redirect:/main"; // перенаправляем на главную страницу
+                personService.delete(id);
+                return "redirect:/main";
             }
 
     @GetMapping("/hello")
@@ -101,18 +96,17 @@ public class PersonController {
                                Model model) {
         List<Person> foundPersons;
 
-        // Проверяем, что передан параметр для поиска
         if (name != null && !name.isEmpty()) {
-            foundPersons = personService.findByName(name); // реализуй метод поиска по имени в сервисе
+            foundPersons = personService.findByName(name);
         } else if (id != null) {
-            Person person = personService.findOne(id); // поиск по ID
+            Person person = personService.findOne(id);
             foundPersons = person != null ? List.of(person) : Collections.emptyList();
         } else {
-            foundPersons = Collections.emptyList(); // если ничего не передано, возвращаем пустой список
+            foundPersons = Collections.emptyList();
         }
 
-        model.addAttribute("persons", foundPersons); // передаем список найденных людей в модель
-        return "search_results"; // отображаем результаты поиска
+        model.addAttribute("persons", foundPersons);
+        return "search_results";
     }
 }
 

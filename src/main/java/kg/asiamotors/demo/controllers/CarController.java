@@ -37,10 +37,10 @@ public class CarController {
     public String saveCar(Car car, @RequestParam("personId") int personId) {
         Person person = personService.findOne(personId);
         if (person != null) {
-            car.setPerson(person); // Связываем машину с человеком
+            car.setPerson(person);
             carService.save(car);
         }
-        return "redirect:/main"; // Возвращаем на главную страницу или куда-то еще
+        return "redirect:/main";
     }
 
 
@@ -51,13 +51,13 @@ public class CarController {
         return "list_all";
     }
 
-    @GetMapping("/{id}/edit_car") // путь для редактирования конкретного человека
+    @GetMapping("/{id}/edit_car")
     public String update(Model model, @PathVariable("id") int id) {
-        Car car = carService.findOne(id); // ищем человека по ID
+        Car car = carService.findOne(id);
         if (car == null) {
-            return "redirect:/main"; // перенаправление, если не найден
+            return "redirect:/main";
         }
-        model.addAttribute("cars", car); // добавляем человека в модель
+        model.addAttribute("cars", car);
         return "main/edit_car";
     }
 
