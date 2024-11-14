@@ -27,6 +27,16 @@ public class Sale {
 
     private Double salePrice;
 
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     // Getters and Setters
 
     public Long getId() {
@@ -77,4 +87,3 @@ public class Sale {
         this.salePrice = salePrice;
     }
 }
-

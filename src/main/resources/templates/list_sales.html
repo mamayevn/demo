@@ -72,18 +72,26 @@
 <h1>Список Продаж</h1>
 <table>
     <tr>
+        <th>ID</th>
         <th>Покупатель</th>
         <th>Продавец</th>
-        <th>Модель</th>
+        <th>Модель автомобиля</th>
         <th>Дата продажи</th>
-        <th>Стоимость</th>
+        <th>Цена</th>
+        <th>Имя файла</th>
+        <th>Файл</th>
     </tr>
     <tr th:each="sale : ${sales}">
+        <td th:text="${sale.id}"></td>
         <td th:text="${sale.customer.firstName} + ' ' + ${sale.customer.lastName}"></td>
         <td th:text="${sale.salesPerson.firstName} + ' ' + ${sale.salesPerson.lastName}"></td>
         <td th:text="${sale.carModel.name}"></td>
         <td th:text="${sale.saleDate}"></td>
         <td th:text="${sale.salePrice}"></td>
+        <td th:text="${sale.fileName}"></td>
+        <td>
+            <a th:href="@{'/uploads/' + ${sale.fileName}}" target="_blank">Скачать файл</a>
+        </td>
     </tr>
 </table>
 <a href="/sales/add">Добавить</a>
