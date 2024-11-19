@@ -177,6 +177,8 @@
         <label for="file">Загрузить документ:</label>
         <input type="file" id="file" name="file" required>
 
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
         <button type="submit">Добавить Продажу</button>
     </form>
 

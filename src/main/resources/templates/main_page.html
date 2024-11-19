@@ -103,6 +103,29 @@
         .add-sale-button:hover {
             background-color: #45a049;
         }
+
+        /* Стили для пагинации */
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .pagination .disabled {
+            color: #ccc;
+            pointer-events: none;
+            border-color: #ccc;
+        }
+        .pagination span {
+            margin: 0 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -158,6 +181,16 @@
 
 <div style="text-align: center;">
     <a href="/sales/add" class="add-sale-button">Добавить продажу</a>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <div class="pagination">
+        <a th:href="@{|/sales?page=0&size=${pageable.pageSize}|}" th:classappend="${pageable.pageNumber == 0} ? 'disabled' : ''">Первая</a>
+        <a th:href="@{|/sales?page=${pageable.pageNumber - 1}&size=${pageable.pageSize}|}" th:classappend="${pageable.pageNumber == 0} ? 'disabled' : ''">Назад</a>
+        <span th:text="'Страница ' + (${pageable.pageNumber} + 1) + ' из ' + ${pageable.totalPages}"></span>
+        <a th:href="@{|/sales?page=${pageable.pageNumber + 1}&size=${pageable.pageSize}|}" th:classappend="${pageable.pageNumber + 1 == pageable.totalPages} ? 'disabled' : ''">Вперед</a>
+        <a th:href="@{|/sales?page=${pageable.totalPages - 1}&size=${pageable.pageSize}|}" th:classappend="${pageable.pageNumber + 1 == pageable.totalPages} ? 'disabled' : ''">Последняя</a>
+    </div>
 </div>
 
 </body>

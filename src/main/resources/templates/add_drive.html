@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,6 +86,8 @@
 <div class="container">
 
     <form action="/drives/add" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <label for="name">Тип привода:</label>
         <input type="text" id="name" name="name" required placeholder="Введите тип привода">
         <br><br>

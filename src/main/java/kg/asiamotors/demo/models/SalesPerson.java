@@ -11,7 +11,7 @@ public class SalesPerson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-private int id;
+    private int id;
 
     private String firstName;
     private String lastName;

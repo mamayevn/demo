@@ -81,6 +81,8 @@
 
 <div class="container">
     <form action="/models/add_model" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <label for="name">Модель:</label>
         <input type="text" id="name" name="name" required>
 

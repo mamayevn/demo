@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Brand</title>
+    <title>Добавить бренд</title>
     <style>
         body {
           font-family: Arial, sans-serif;
@@ -84,18 +84,22 @@
         .edit-link:hover {
           text-decoration: underline;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <header>
-
     <h1>Добавить новый бренд</h1>
 </header>
 
 <div class="container">
 
-    <form action="/add_brand" method="POST">
+    <form id="addBrandForm" action="/add_brand" method="POST">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <label for="name">Название бренда:</label>
         <input type="text" id="name" name="name" required placeholder="Введите название бренда">
         <br><br>
@@ -106,17 +110,60 @@
 
     <h2>Список всех брендов:</h2>
     <ul>
-
         <li th:each="brand : ${brands}">
             <span th:text="${brand.name}">Название бренда</span>
-
             <a th:href="@{/edit_brand/{id}(id=${brand.id})}" class="edit-link">Изменить</a>
+            <a th:href="@{/delete_brand/{id}(id=${brand.id})}" class="edit-link" style="color:red;">Удалить</a>
         </li>
     </ul>
 
     <br>
     <a href="http://localhost:1010" class="mainpage-button">Главная страница</a>
+
+    <button id="addBrandButton" class="hidden">Добавить новый бренд</button>
 </div>
+
+<script>
+    function checkAuth() {
+        const token = localStorage.getItem("jwtToken");
+        const addButton = document.getElementById("addBrandButton");
+
+        if (token) {
+            addButton.classList.remove("hidden");
+        } else {
+            addButton.classList.add("hidden");
+        }
+    }
+
+    // Добавление JWT токена в заголовки при отправке формы
+    document.getElementById("addBrandForm").addEventListener("submit", function(event) {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const headers = new Headers();
+            headers.append("Authorization", "Bearer " + token);
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: "POST",
+                headers: headers,
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "/";
+                } else {
+                    alert("Ошибка при добавлении бренда");
+                }
+            }).catch(error => {
+                console.error("Ошибка запроса:", error);
+            });
+
+            event.preventDefault();
+        }
+    });
+
+    window.onload = checkAuth;
+</script>
 
 </body>
 </html>
