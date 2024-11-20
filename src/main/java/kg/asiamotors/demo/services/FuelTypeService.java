@@ -24,5 +24,7 @@ public class FuelTypeService {
     public FuelType findById(int id) {
         return fuelTypeRepository.findById(id).orElse(null); // Если бренд не найден, возвращаем null
     }
-
+    public void delete(int id) {
+        fuelTypeRepository.deleteById(id);
+    }
 }

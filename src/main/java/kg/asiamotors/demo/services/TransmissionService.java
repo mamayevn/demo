@@ -24,4 +24,7 @@ public class TransmissionService {
     public Transmission findById(int id) {
         return transmissionRepository.findById(id).orElse(null);
     }
+    public void delete(int id) {
+        transmissionRepository.deleteById(id);
+    }
 }

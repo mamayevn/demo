@@ -24,4 +24,18 @@ public class SaleService {
     public Page<Sale> findAllSales(Pageable pageable) {
         return saleRepository.findAll(pageable);
     }
+    public void delete(int id) {
+        saleRepository.deleteById(id);
+    }
+    public List<Sale> findAll() {
+        return saleRepository.findAll();
+    }
+
+    public Sale findById(int id) {
+        return saleRepository.findById(id).orElse(null);
+    }
+
+    public void save(Sale sale) {
+        saleRepository.save(sale);
+    }
 }

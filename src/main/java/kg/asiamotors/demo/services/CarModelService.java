@@ -21,4 +21,11 @@ public class CarModelService {
     public CarModel save(CarModel carModel) {
         return carModelRepository.save(carModel);
     }
+    public void delete(int id) {
+        carModelRepository.deleteById(id);
+    }
+
+    public CarModel findById(int id) {
+        return carModelRepository.findById(id).orElse(null);
+    }
 }

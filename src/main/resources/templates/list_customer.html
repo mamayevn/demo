@@ -76,7 +76,7 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Перебираем всех клиентов и выводим их данные -->
+
     <tr th:each="customer : ${customers}">
         <td th:text="${customer.firstName}">First Name</td>
         <td th:text="${customer.lastName}">Last Name</td>
@@ -88,7 +88,6 @@
     </tbody>
 </table>
 
-<!-- Кнопки для перехода на страницы -->
 <div style="text-align: center;">
     <a href="/customers/add">Добавить нового покупателя</a>
     <a href="http://localhost:1010" class="btn-main">Вернутся на главную страницу</a>

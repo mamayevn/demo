@@ -9,7 +9,6 @@ public class SalesPersonSalesDTO {
     public SalesPerson getSalesPerson() {
         return salesPerson;
     }
-
     public void setSalesPerson(SalesPerson salesPerson) {
         this.salesPerson = salesPerson;
     }

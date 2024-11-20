@@ -25,4 +25,7 @@ public class VolumeService {
     public Volume findById(int id) {
         return volumeRepository.findById(id).orElse(null);
     }
+    public void delete(int id) {
+        volumeRepository.deleteById(id);
+    }
 }

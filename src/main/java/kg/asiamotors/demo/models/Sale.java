@@ -37,8 +37,6 @@ public class Sale {
         this.fileName = fileName;
     }
 
-    // Getters and Setters
-
     public Long getId() {
         return id;
     }

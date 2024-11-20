@@ -1,6 +1,5 @@
 package kg.asiamotors.demo.services;
 
-import kg.asiamotors.demo.models.Brand;
 import kg.asiamotors.demo.models.Drive;
 import kg.asiamotors.demo.repasitories.DriveRepository;
 import org.springframework.stereotype.Service;
@@ -23,5 +22,8 @@ public class DriveService {
     }
     public Drive findById(int id) {
         return driveRepository.findById(id).orElse(null);
+    }
+    public void delete(int id) {
+        driveRepository.deleteById(id);
     }
 }
