@@ -28,8 +28,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/auth/**", "/login"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/login").permitAll()
-                        .requestMatchers("/add_brand", "/sales/add", "/models/add_model").authenticated()
+                        .requestMatchers("/api/auth/**", "/login", "/**").permitAll()
+                        .requestMatchers("/add_brand", "/sales/add", "/models/add_model", "/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin()

@@ -1,12 +1,18 @@
 package kg.asiamotors.demo.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Brand")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,30 +22,4 @@ public class Brand {
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     private List<CarModel> models = new ArrayList<>();
-
-    public List<CarModel> getModels() {
-        return models;
-    }
-
-    public void setModels(List<CarModel> models) {
-        this.models = models;
-    }
-
-    public Brand(){}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

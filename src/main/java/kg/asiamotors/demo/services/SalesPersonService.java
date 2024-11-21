@@ -1,12 +1,13 @@
 package kg.asiamotors.demo.services;
 
+import kg.asiamotors.demo.dto.SalesPersonDTO;
 import kg.asiamotors.demo.models.SalesPerson;
 import kg.asiamotors.demo.repasitories.SalesPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SalesPersonService {
@@ -16,19 +17,83 @@ public class SalesPersonService {
     public SalesPersonService(SalesPersonRepository salesPersonRepository) {
         this.salesPersonRepository = salesPersonRepository;
     }
-    public List<SalesPerson> findAllSalespersons() {
-        return salesPersonRepository.findAll();
+
+    public List<SalesPersonDTO> findAllSalespersons() {
+        return salesPersonRepository.findAll()
+                .stream()
+                .map(salesPerson -> new SalesPersonDTO(
+                        salesPerson.getId(),
+                        salesPerson.getFirstName(),
+                        salesPerson.getLastName(),
+                        salesPerson.getPhoneNumber(),
+                        salesPerson.getEmail(),
+                        salesPerson.getPosition()))
+                .collect(Collectors.toList());
     }
 
-    public Optional<SalesPerson> findSalespersonById(int id) {
-        return salesPersonRepository.findById(id);
+    public SalesPersonDTO findSalespersonById(int id) {
+        Optional<SalesPerson> salesPersonOptional = salesPersonRepository.findById(id);
+        if (salesPersonOptional.isPresent()) {
+            SalesPerson salesPerson = salesPersonOptional.get();
+            return new SalesPersonDTO(
+                    salesPerson.getId(),
+                    salesPerson.getFirstName(),
+                    salesPerson.getLastName(),
+                    salesPerson.getPhoneNumber(),
+                    salesPerson.getEmail(),
+                    salesPerson.getPosition());
+        }
+        return null;
     }
 
-    public void saveSalesperson(SalesPerson salesperson) {
-        salesPersonRepository.save(salesperson);
+    public SalesPersonDTO createSalesPerson(SalesPersonDTO salesPersonDTO) {
+        SalesPerson salesPerson = new SalesPerson();
+        salesPerson.setFirstName(salesPersonDTO.getFirstName());
+        salesPerson.setLastName(salesPersonDTO.getLastName());
+        salesPerson.setPhoneNumber(salesPersonDTO.getPhoneNumber());
+        salesPerson.setEmail(salesPersonDTO.getEmail());
+        salesPerson.setPosition(salesPersonDTO.getPosition());
+
+        salesPersonRepository.save(salesPerson);
+
+        return new SalesPersonDTO(
+                salesPerson.getId(),
+                salesPerson.getFirstName(),
+                salesPerson.getLastName(),
+                salesPerson.getPhoneNumber(),
+                salesPerson.getEmail(),
+                salesPerson.getPosition());
     }
 
-    public void deleteSalesperson(int id) {
-        salesPersonRepository.deleteById(id);
+    public SalesPersonDTO updateSalesPerson(int id, SalesPersonDTO salesPersonDTO) {
+        Optional<SalesPerson> existingSalesPersonOptional = salesPersonRepository.findById(id);
+        if (existingSalesPersonOptional.isPresent()) {
+            SalesPerson existingSalesPerson = existingSalesPersonOptional.get();
+            existingSalesPerson.setFirstName(salesPersonDTO.getFirstName());
+            existingSalesPerson.setLastName(salesPersonDTO.getLastName());
+            existingSalesPerson.setPhoneNumber(salesPersonDTO.getPhoneNumber());
+            existingSalesPerson.setEmail(salesPersonDTO.getEmail());
+            existingSalesPerson.setPosition(salesPersonDTO.getPosition());
+
+            salesPersonRepository.save(existingSalesPerson);
+
+            return new SalesPersonDTO(
+                    existingSalesPerson.getId(),
+                    existingSalesPerson.getFirstName(),
+                    existingSalesPerson.getLastName(),
+                    existingSalesPerson.getPhoneNumber(),
+                    existingSalesPerson.getEmail(),
+                    existingSalesPerson.getPosition());
+        }
+        return null;
+    }
+
+    public boolean deleteSalesPerson(int id) {
+        Optional<SalesPerson> existingSalesPersonOptional = salesPersonRepository.findById(id);
+        if (existingSalesPersonOptional.isPresent()) {
+            salesPersonRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

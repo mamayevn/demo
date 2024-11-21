@@ -1,31 +1,82 @@
 package kg.asiamotors.demo.services;
 
+import kg.asiamotors.demo.dto.CarModelDTO;
 import kg.asiamotors.demo.models.CarModel;
 import kg.asiamotors.demo.repasitories.CarModelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarModelService {
-    private CarModelRepository carModelRepository;
 
-    public CarModelService(CarModelRepository carModelRepository) {
+    private final CarModelRepository carModelRepository;
+    private final BrandService brandService;
+    private final VolumeService volumeService;
+    private final TransmissionService transmissionService;
+    private final DriveService driveService;
+    private final FuelTypeService fuelTypeService;
+
+    public CarModelService(CarModelRepository carModelRepository,
+                           BrandService brandService,
+                           VolumeService volumeService,
+                           TransmissionService transmissionService,
+                           DriveService driveService,
+                           FuelTypeService fuelTypeService) {
         this.carModelRepository = carModelRepository;
+        this.brandService = brandService;
+        this.volumeService = volumeService;
+        this.transmissionService = transmissionService;
+        this.driveService = driveService;
+        this.fuelTypeService = fuelTypeService;
     }
 
-    public List<CarModel> findAll() {
-        return carModelRepository.findAll();
+    public List<CarModelDTO> getAllCarModels() {
+        return carModelRepository.findAll().stream()
+                .map(carModel -> {
+                    CarModelDTO dto = new CarModelDTO();
+                    dto.setName(carModel.getName());
+                    dto.setBrandId(carModel.getBrand().getId());
+                    dto.setVolumeId(carModel.getVolume().getId());
+                    dto.setTransmissionId(carModel.getTransmission().getId());
+                    dto.setDriveId(carModel.getDrive().getId());
+                    dto.setFuelTypeId(carModel.getFuelType().getId());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
-    public CarModel save(CarModel carModel) {
+    public CarModel createCarModel(CarModelDTO carModelDTO) {
+        CarModel carModel = new CarModel();
+        carModel.setName(carModelDTO.getName());
+        carModel.setBrand(brandService.findById(carModelDTO.getBrandId()));
+        carModel.setVolume(volumeService.findById(carModelDTO.getVolumeId()));
+        carModel.setTransmission(transmissionService.findById(carModelDTO.getTransmissionId()));
+        carModel.setDrive(driveService.findEntityById(carModelDTO.getDriveId()));
+        carModel.setFuelType(fuelTypeService.findById(carModelDTO.getFuelTypeId()));
         return carModelRepository.save(carModel);
     }
-    public void delete(int id) {
-        carModelRepository.deleteById(id);
+
+    public CarModel updateCarModel(int id, CarModelDTO carModelDTO) {
+        CarModel existingModel = carModelRepository.findById(id).orElse(null);
+        if (existingModel != null) {
+            existingModel.setName(carModelDTO.getName());
+            existingModel.setBrand(brandService.findById(carModelDTO.getBrandId()));
+            existingModel.setVolume(volumeService.findById(carModelDTO.getVolumeId()));
+            existingModel.setTransmission(transmissionService.findById(carModelDTO.getTransmissionId()));
+            existingModel.setDrive(driveService.findEntityById(carModelDTO.getDriveId()));
+            existingModel.setFuelType(fuelTypeService.findById(carModelDTO.getFuelTypeId()));
+            return carModelRepository.save(existingModel);
+        }
+        return null;
     }
 
-    public CarModel findById(int id) {
-        return carModelRepository.findById(id).orElse(null);
+    public boolean deleteCarModel(int id) {
+        if (carModelRepository.existsById(id)) {
+            carModelRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
