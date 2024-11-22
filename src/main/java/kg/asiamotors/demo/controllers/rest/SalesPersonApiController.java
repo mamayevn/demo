@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.SalesPersonDTO;
-import kg.asiamotors.demo.services.SalesPersonService;
+import kg.asiamotors.demo.services.api.SalesPersonApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,20 +11,20 @@ import java.util.List;
 @RequestMapping("/api/salespersons")
 public class SalesPersonApiController {
 
-    private final SalesPersonService salesPersonService;
+    private final SalesPersonApiService salesPersonApiService;
 
-    public SalesPersonApiController(SalesPersonService salesPersonService) {
-        this.salesPersonService = salesPersonService;
+    public SalesPersonApiController(SalesPersonApiService salesPersonApiService) {
+        this.salesPersonApiService = salesPersonApiService;
     }
 
     @GetMapping
     public List<SalesPersonDTO> getAllSalesPersons() {
-        return salesPersonService.findAllSalespersons();
+        return salesPersonApiService.findAllSalespersons();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SalesPersonDTO> getSalesPersonById(@PathVariable int id) {
-        SalesPersonDTO salesPersonDTO = salesPersonService.findSalespersonById(id);
+        SalesPersonDTO salesPersonDTO = salesPersonApiService.findSalespersonById(id);
         if (salesPersonDTO != null) {
             return ResponseEntity.ok(salesPersonDTO);
         }
@@ -33,13 +33,13 @@ public class SalesPersonApiController {
 
     @PostMapping
     public ResponseEntity<SalesPersonDTO> createSalesPerson(@RequestBody SalesPersonDTO salesPersonDTO) {
-        SalesPersonDTO createdSalesPersonDTO = salesPersonService.createSalesPerson(salesPersonDTO);
+        SalesPersonDTO createdSalesPersonDTO = salesPersonApiService.createSalesPerson(salesPersonDTO);
         return ResponseEntity.ok(createdSalesPersonDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SalesPersonDTO> updateSalesPerson(@PathVariable int id, @RequestBody SalesPersonDTO salesPersonDTO) {
-        SalesPersonDTO updatedSalesPersonDTO = salesPersonService.updateSalesPerson(id, salesPersonDTO);
+        SalesPersonDTO updatedSalesPersonDTO = salesPersonApiService.updateSalesPerson(id, salesPersonDTO);
         if (updatedSalesPersonDTO != null) {
             return ResponseEntity.ok(updatedSalesPersonDTO);
         }
@@ -48,7 +48,7 @@ public class SalesPersonApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSalesPerson(@PathVariable int id) {
-        boolean isDeleted = salesPersonService.deleteSalesPerson(id);
+        boolean isDeleted = salesPersonApiService.deleteSalesPerson(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build();
         }

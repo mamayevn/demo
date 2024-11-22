@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.CustomerDTO;
-import kg.asiamotors.demo.services.CustomerService;
+import kg.asiamotors.demo.services.api.CustomerApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,21 +10,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerApiController {
-    private final CustomerService customerService;
+    private final CustomerApiService customerApiService;
 
-    public CustomerApiController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerApiController(CustomerApiService customerApiService) {
+        this.customerApiService = customerApiService;
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-        List<CustomerDTO> customers = customerService.findAllCustomers();
+        List<CustomerDTO> customers = customerApiService.findAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable int id) {
-        CustomerDTO customerDTO = customerService.findCustomerById(id);
+        CustomerDTO customerDTO = customerApiService.findCustomerById(id);
         if (customerDTO == null) {
             return ResponseEntity.notFound().build();
         }
@@ -33,13 +33,13 @@ public class CustomerApiController {
 
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
-        CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
+        CustomerDTO createdCustomer = customerApiService.createCustomer(customerDTO);
         return ResponseEntity.ok(createdCustomer);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerDTO customerDTO) {
-        CustomerDTO updatedCustomer = customerService.updateCustomer(id, customerDTO);
+        CustomerDTO updatedCustomer = customerApiService.updateCustomer(id, customerDTO);
         if (updatedCustomer == null) {
             return ResponseEntity.notFound().build();
         }
@@ -48,7 +48,7 @@ public class CustomerApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable int id) {
-        boolean deleted = customerService.deleteCustomer(id);
+        boolean deleted = customerApiService.deleteCustomer(id);
         if (!deleted) {
             return ResponseEntity.notFound().build();
         }

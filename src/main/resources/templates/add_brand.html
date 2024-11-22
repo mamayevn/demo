@@ -113,7 +113,6 @@
         <li th:each="brand : ${brands}">
             <span th:text="${brand.name}">Название бренда</span>
             <a th:href="@{/edit_brand/{id}(id=${brand.id})}" class="edit-link">Изменить</a>
-            <a th:href="@{/delete_brand/{id}(id=${brand.id})}" class="edit-link" style="color:red;">Удалить</a>
         </li>
     </ul>
 

@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.CarDTO;
-import kg.asiamotors.demo.services.CarService;
+import kg.asiamotors.demo.services.api.CarApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,27 +11,27 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarApiController {
 
-    private final CarService carService;
+    private final CarApiService carApiService;
 
-    public CarApiController(CarService carService) {
-        this.carService = carService;
+    public CarApiController(CarApiService carApiService) {
+        this.carApiService = carApiService;
     }
 
     @GetMapping
     public ResponseEntity<List<CarDTO>> getAllCars() {
-        List<CarDTO> cars = carService.getAllCars();
+        List<CarDTO> cars = carApiService.getAllCars();
         return ResponseEntity.ok(cars);
     }
 
     @PostMapping
     public ResponseEntity<CarDTO> createCar(@RequestBody CarDTO carDTO) {
-        CarDTO createdCar = carService.createCar(carDTO);
+        CarDTO createdCar = carApiService.createCar(carDTO);
         return ResponseEntity.ok(createdCar);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CarDTO> updateCar(@PathVariable int id, @RequestBody CarDTO carDTO) {
-        CarDTO updatedCar = carService.updateCar(id, carDTO);
+        CarDTO updatedCar = carApiService.updateCar(id, carDTO);
         if (updatedCar == null) {
             return ResponseEntity.notFound().build();
         }
@@ -40,7 +40,7 @@ public class CarApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable int id) {
-        if (!carService.deleteCar(id)) {
+        if (!carApiService.deleteCar(id)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();

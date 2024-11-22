@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.DriveDTO;
-import kg.asiamotors.demo.services.DriveService;
+import kg.asiamotors.demo.services.api.DriveApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,20 +10,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/drives")
 public class DriveApiController {
-    private final DriveService driveService;
+    private final DriveApiService driveApiService;
 
-    public DriveApiController(DriveService driveService) {
-        this.driveService = driveService;
+    public DriveApiController(DriveApiService driveApiService) {
+        this.driveApiService = driveApiService;
     }
 
     @GetMapping
     public List<DriveDTO> getAllDrives() {
-        return driveService.getAllDrives();
+        return driveApiService.getAllDrives();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DriveDTO> getDriveById(@PathVariable int id) {
-        DriveDTO driveDTO = driveService.findById(id);
+        DriveDTO driveDTO = driveApiService.findById(id);
         if (driveDTO != null) {
             return ResponseEntity.ok(driveDTO);
         }
@@ -32,13 +32,13 @@ public class DriveApiController {
 
     @PostMapping
     public ResponseEntity<DriveDTO> createDrive(@RequestBody DriveDTO driveDTO) {
-        DriveDTO createdDrive = driveService.createDrive(driveDTO);
+        DriveDTO createdDrive = driveApiService.createDrive(driveDTO);
         return ResponseEntity.ok(createdDrive);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DriveDTO> updateDrive(@PathVariable int id, @RequestBody DriveDTO driveDTO) {
-        DriveDTO updatedDrive = driveService.updateDrive(id, driveDTO);
+        DriveDTO updatedDrive = driveApiService.updateDrive(id, driveDTO);
         if (updatedDrive != null) {
             return ResponseEntity.ok(updatedDrive);
         }
@@ -47,7 +47,7 @@ public class DriveApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDrive(@PathVariable int id) {
-        boolean deleted = driveService.deleteDrive(id);
+        boolean deleted = driveApiService.deleteDrive(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
         }

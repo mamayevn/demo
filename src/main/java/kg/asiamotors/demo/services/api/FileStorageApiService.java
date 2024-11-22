@@ -1,11 +1,9 @@
-package kg.asiamotors.demo.services;
+package kg.asiamotors.demo.services.api;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,11 +11,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class FileStorageService {
+public class FileStorageApiService {
 
     private final Path fileStorageLocation;
 
-    public FileStorageService() {
+    public FileStorageApiService() {
         this.fileStorageLocation = Paths.get("C:/Users/NoutSpace/Desktop/Java projects/uploads").toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);

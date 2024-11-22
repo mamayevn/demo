@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.PersonDTO;
-import kg.asiamotors.demo.services.PersonService;
+import kg.asiamotors.demo.services.api.PersonApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,21 +11,21 @@ import java.util.List;
 @RequestMapping("/api/persons")
 public class PersonApiController {
 
-    private final PersonService personService;
+    private final PersonApiService personApiService;
 
-    public PersonApiController(PersonService personService) {
-        this.personService = personService;
+    public PersonApiController(PersonApiService personApiService) {
+        this.personApiService = personApiService;
     }
 
     @GetMapping
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
-        List<PersonDTO> persons = personService.getAllPersons();
+        List<PersonDTO> persons = personApiService.getAllPersons();
         return ResponseEntity.ok(persons);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonById(@PathVariable int id) {
-        PersonDTO personDTO = personService.getPersonById(id);
+        PersonDTO personDTO = personApiService.getPersonById(id);
         if (personDTO == null) {
             return ResponseEntity.notFound().build();
         }
@@ -34,13 +34,13 @@ public class PersonApiController {
 
     @PostMapping
     public ResponseEntity<PersonDTO> createPerson(@RequestBody PersonDTO personDTO) {
-        PersonDTO createdPerson = personService.createPerson(personDTO);
+        PersonDTO createdPerson = personApiService.createPerson(personDTO);
         return ResponseEntity.ok(createdPerson);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PersonDTO> updatePerson(@PathVariable int id, @RequestBody PersonDTO personDTO) {
-        PersonDTO updatedPerson = personService.updatePerson(id, personDTO);
+        PersonDTO updatedPerson = personApiService.updatePerson(id, personDTO);
         if (updatedPerson == null) {
             return ResponseEntity.notFound().build();
         }
@@ -49,7 +49,7 @@ public class PersonApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable int id) {
-        if (!personService.deletePerson(id)) {
+        if (!personApiService.deletePerson(id)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();

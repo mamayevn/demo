@@ -1,17 +1,10 @@
 package kg.asiamotors.demo.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "sales")
-@Data
-@NoArgsConstructor
 public class Sale {
 
     @Id
@@ -24,23 +17,71 @@ public class Sale {
 
     @ManyToOne
     @JoinColumn(name = "salesperson_id", nullable = false)
-    @NotNull(message = "Продажник не может быть пустым")
     private SalesPerson salesPerson;
 
     @ManyToOne
     @JoinColumn(name = "car_model_id", nullable = false)
-    @NotNull(message = "Модель не может быть пустой")
     private CarModel carModel;
 
-    @Column(name = "sale_date")
-    @NotNull(message = "Дата не может быть пустым")
     private LocalDate saleDate;
 
-    @Column(name = "sale_price")
-    @NotNull(message = "Данное поле должно быть заполненным")
-    @Min(value = 0, message = "> 0 сом")
     private Double salePrice;
 
-    @Column(name = "file_name")
     private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public SalesPerson getSalesPerson() {
+        return salesPerson;
+    }
+
+    public void setSalesPerson(SalesPerson salesPerson) {
+        this.salesPerson = salesPerson;
+    }
+
+    public CarModel getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(CarModel carModel) {
+        this.carModel = carModel;
+    }
+
+    public LocalDate getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(LocalDate saleDate) {
+        this.saleDate = saleDate;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
 }

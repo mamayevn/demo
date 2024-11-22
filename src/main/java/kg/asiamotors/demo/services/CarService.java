@@ -1,79 +1,49 @@
 package kg.asiamotors.demo.services;
 
-import kg.asiamotors.demo.dto.CarDTO;
 import kg.asiamotors.demo.models.Car;
+import kg.asiamotors.demo.models.Person;
 import kg.asiamotors.demo.repasitories.CarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class CarService {
-
     private final CarRepository carRepository;
 
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
-
-    public List<CarDTO> getAllCars() {
-        List<Car> cars = carRepository.findAll();
-        return cars.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Car> findByBrand(String brand) {
+        return carRepository.findByBrand(brand);
+    }
+    public List<Car> findByPersonId (int personId) {
+        return carRepository.findByPersonId(personId);
     }
 
-    @Transactional
-    public CarDTO createCar(CarDTO carDTO) {
-        Car car = convertToEntity(carDTO);
-        Car savedCar = carRepository.save(car);
-        return convertToDTO(savedCar);
+    public List<Car> findAll() {
+        return carRepository.findAll();
     }
-
-    @Transactional
-    public CarDTO updateCar(int id, CarDTO carDTO) {
-        return carRepository.findById(id)
-                .map(existingCar -> {
-                    existingCar.setBrand(carDTO.getBrand());
-                    existingCar.setModel(carDTO.getModel());
-                    existingCar.setEngineVolume(carDTO.getEngineVolume());
-                    existingCar.setYear(carDTO.getYear());
-                    existingCar.setPrice(carDTO.getPrice());
-                    Car updatedCar = carRepository.save(existingCar);
-                    return convertToDTO(updatedCar);
-                })
-                .orElse(null);
+    public Car findOne(int id) {
+        Optional<Car> foundCar = carRepository.findById(id);
+        return foundCar.orElse(null);
     }
-
     @Transactional
-    public boolean deleteCar(int id) {
-        if (!carRepository.existsById(id)) {
-            return false;
+    public void save(Car car) {
+        carRepository.save(car);
+    }
+    @Transactional
+    public void update(int id, Car updatedCar) {
+        if (carRepository.existsById(id)) {
+            updatedCar.setId(id);
+            carRepository.save(updatedCar);
         }
+    }
+    @Transactional
+    public void delete(int id) {
         carRepository.deleteById(id);
-        return true;
-    }
-
-    private CarDTO convertToDTO(Car car) {
-        CarDTO carDTO = new CarDTO();
-        carDTO.setBrand(car.getBrand());
-        carDTO.setModel(car.getModel());
-        carDTO.setEngineVolume(car.getEngineVolume());
-        carDTO.setYear(car.getYear());
-        carDTO.setPrice(car.getPrice());
-        return carDTO;
-    }
-
-    private Car convertToEntity(CarDTO carDTO) {
-        Car car = new Car();
-        car.setBrand(carDTO.getBrand());
-        car.setModel(carDTO.getModel());
-        car.setEngineVolume(carDTO.getEngineVolume());
-        car.setYear(carDTO.getYear());
-        car.setPrice(carDTO.getPrice());
-        return car;
     }
 }
