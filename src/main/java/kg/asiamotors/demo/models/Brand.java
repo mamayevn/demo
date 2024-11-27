@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Brand")
+@Table(name = "Brand", indexes = @Index(name = "idx_brand_name", columnList = "name"))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +17,7 @@ public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "name")
     private String name;
 

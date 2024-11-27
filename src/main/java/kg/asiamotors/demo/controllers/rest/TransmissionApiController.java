@@ -2,6 +2,7 @@ package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.TransmissionDTO;
 import kg.asiamotors.demo.services.api.TransmissionApiService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,14 @@ public class TransmissionApiController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransmission(@PathVariable int id) {
         return transmissionApiService.deleteTransmission(id);
+    }
+    @GetMapping("/search")
+    public List<TransmissionDTO> searchTransmissionsByName(@RequestParam String name) {
+        return transmissionApiService.searchTransmissionsByName(name);
+    }
+    @GetMapping("page")
+    public ResponseEntity<Page<TransmissionDTO>> getAllTransmissionDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
+                                                                     @RequestParam(name = "limit", defaultValue = "10") int limit) {
+        return ResponseEntity.ok(transmissionApiService.getAllTransmissionDto(offset, limit));
     }
 }

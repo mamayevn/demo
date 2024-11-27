@@ -2,6 +2,7 @@ package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.PersonDTO;
 import kg.asiamotors.demo.services.api.PersonApiService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,5 +54,15 @@ public class PersonApiController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<PersonDTO>> searchPersonsByName(@RequestParam String name) {
+        List<PersonDTO> persons = personApiService.searchPersonsByName(name);
+        return ResponseEntity.ok(persons);
+    }
+    @GetMapping("page")
+    public ResponseEntity<Page<PersonDTO>> getAllPersonDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
+                                                               @RequestParam(name = "limit", defaultValue = "10") int limit) {
+        return ResponseEntity.ok(personApiService.getAllPersonDto(offset, limit));
     }
 }

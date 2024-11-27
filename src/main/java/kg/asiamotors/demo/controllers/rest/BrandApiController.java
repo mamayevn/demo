@@ -2,6 +2,7 @@ package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.BrandDTO;
 import kg.asiamotors.demo.services.api.BrandApiService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,14 @@ public class BrandApiController {
         return ResponseEntity.ok(brands);
     }
 
+    @GetMapping("/page")
+    public ResponseEntity<Page<BrandDTO>> getAllBrandDto(
+            @RequestParam(name = "offset", defaultValue = "0") int offset,
+            @RequestParam(name = "limit", defaultValue = "10") int limit) {
+        return ResponseEntity.ok(brandApiService.findAllBrandDtos(offset, limit));
+    }
+
+
     @PostMapping
     public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandDTO brandDTO) {
         return ResponseEntity.ok(brandApiService.createBrand(brandDTO));
@@ -43,5 +52,11 @@ public class BrandApiController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<BrandDTO>> searchBrands(@RequestParam String name) {
+        List<BrandDTO> brands = brandApiService.searchBrandsByName(name);
+        return ResponseEntity.ok(brands);
     }
 }

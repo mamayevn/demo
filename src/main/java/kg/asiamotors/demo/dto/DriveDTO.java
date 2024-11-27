@@ -1,8 +1,13 @@
 package kg.asiamotors.demo.dto;
 
+
 public class DriveDTO {
     private int id;
     private String name;
+
+    public DriveDTO(String name) {
+        this.name = name;
+    }
 
     public DriveDTO() {}
 

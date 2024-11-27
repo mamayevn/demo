@@ -60,4 +60,10 @@ public class BrandController {
         brandService.save(brand);
         return "redirect:/add_brand";
     }
+    @GetMapping("/search_brand")
+    @Secured("ROLE_USER")
+    public String searchBrandByName(@ModelAttribute("name") String name, Model model) {
+        model.addAttribute("brands", brandService.searchByName(name));
+        return "add_brand";
+    }
 }

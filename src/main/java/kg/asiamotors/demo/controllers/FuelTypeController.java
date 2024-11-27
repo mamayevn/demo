@@ -33,4 +33,5 @@ public class FuelTypeController {
         model.addAttribute("fuelTypes", fuelTypeService.findAll());
         return "list_fuel_types";
     }
+
 }

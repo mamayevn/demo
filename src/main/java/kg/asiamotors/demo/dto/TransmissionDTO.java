@@ -6,6 +6,10 @@ public class TransmissionDTO {
 
     public TransmissionDTO() {}
 
+    public TransmissionDTO(String name) {
+        this.name = name;
+    }
+
     public TransmissionDTO(int id, String name) {
         this.id = id;
         this.name = name;

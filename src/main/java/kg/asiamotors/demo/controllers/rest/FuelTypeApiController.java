@@ -2,6 +2,7 @@ package kg.asiamotors.demo.controllers.rest;
 
 import kg.asiamotors.demo.dto.FuelTypeDTO;
 import kg.asiamotors.demo.services.api.FuelTypeApiService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,14 @@ public class FuelTypeApiController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFuelType(@PathVariable int id) {
         return fuelTypeApiService.deleteFuelType(id);
+    }
+    @GetMapping("/search")
+    public List<FuelTypeDTO> searchFuelTypesByName(@RequestParam String name) {
+        return fuelTypeApiService.searchFuelTypesByName(name);
+    }
+    @GetMapping("page")
+    public ResponseEntity<Page<FuelTypeDTO>> getAllFuelTypeDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
+                                                         @RequestParam(name = "limit", defaultValue = "10") int limit) {
+        return ResponseEntity.ok(fuelTypeApiService.getAllFuelTypeDto(offset, limit));
     }
 }

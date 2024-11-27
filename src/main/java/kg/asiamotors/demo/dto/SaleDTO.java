@@ -2,6 +2,7 @@ package kg.asiamotors.demo.dto;
 
 import java.time.LocalDate;
 
+
 public class SaleDTO {
     private Long id;
     private Long customerId;

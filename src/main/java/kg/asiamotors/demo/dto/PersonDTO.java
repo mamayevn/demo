@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+
 public class PersonDTO {
     private int id;
 
@@ -20,6 +21,12 @@ public class PersonDTO {
     private String email;
 
     public PersonDTO() {
+    }
+
+    public PersonDTO(String name, int age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
     }
 
     public PersonDTO(int id, String name, int age, String email) {

@@ -1,5 +1,6 @@
 package kg.asiamotors.demo.dto;
 
+
 public class SalesPersonDTO {
 
     private int id;
@@ -10,6 +11,14 @@ public class SalesPersonDTO {
     private String position;
 
     public SalesPersonDTO() {}
+
+    public SalesPersonDTO(String firstName, String lastName, String phoneNumber, String email, String position) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.position = position;
+    }
 
     public SalesPersonDTO(int id, String firstName, String lastName, String phoneNumber, String email, String position) {
         this.id = id;

@@ -29,4 +29,7 @@ public class BrandService {
     public void delete(int id) {
         brandRepository.deleteById(id);
     }
+    public List<Brand> searchByName(String name) {
+        return brandRepository.findByNameContainingIgnoreCase(name);
+    }
 }
