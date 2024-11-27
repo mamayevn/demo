@@ -1,9 +1,8 @@
 package kg.asiamotors.demo.services.api;
 
-import kg.asiamotors.demo.dto.CarDTO;
 import kg.asiamotors.demo.dto.CustomerDTO;
 import kg.asiamotors.demo.models.Customer;
-import kg.asiamotors.demo.repasitories.CustomerRepository;
+import kg.asiamotors.demo.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

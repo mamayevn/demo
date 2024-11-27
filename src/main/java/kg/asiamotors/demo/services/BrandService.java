@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.Brand;
-import kg.asiamotors.demo.repasitories.BrandRepository;
+import kg.asiamotors.demo.repositories.BrandRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

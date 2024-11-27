@@ -1,9 +1,8 @@
 package kg.asiamotors.demo.services.api;
 
-import kg.asiamotors.demo.dto.TransmissionDTO;
 import kg.asiamotors.demo.dto.VolumeDTO;
 import kg.asiamotors.demo.models.Volume;
-import kg.asiamotors.demo.repasitories.VolumeRepository;
+import kg.asiamotors.demo.repositories.VolumeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

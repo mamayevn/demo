@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.Sale;
-import kg.asiamotors.demo.repasitories.SaleRepository;
+import kg.asiamotors.demo.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

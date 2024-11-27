@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.SalesPerson;
-import kg.asiamotors.demo.repasitories.SalesPersonRepository;
+import kg.asiamotors.demo.repositories.SalesPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

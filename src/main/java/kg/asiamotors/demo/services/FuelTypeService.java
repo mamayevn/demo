@@ -1,8 +1,7 @@
 package kg.asiamotors.demo.services;
 
-import kg.asiamotors.demo.models.Brand;
 import kg.asiamotors.demo.models.FuelType;
-import kg.asiamotors.demo.repasitories.FuelTypeRepository;
+import kg.asiamotors.demo.repositories.FuelTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package kg.asiamotors.demo.repasitories;
+package kg.asiamotors.demo.repositories;
 
 import kg.asiamotors.demo.models.Sale;
 import org.springframework.data.domain.Page;

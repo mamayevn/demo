@@ -1,9 +1,8 @@
 package kg.asiamotors.demo.services.api;
 
-import kg.asiamotors.demo.dto.FuelTypeDTO;
 import kg.asiamotors.demo.dto.PersonDTO;
 import kg.asiamotors.demo.models.Person;
-import kg.asiamotors.demo.repasitories.PersonRepository;
+import kg.asiamotors.demo.repositories.PersonRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

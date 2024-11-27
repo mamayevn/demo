@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.Person;
-import kg.asiamotors.demo.repasitories.PersonRepository;
+import kg.asiamotors.demo.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

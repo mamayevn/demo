@@ -12,8 +12,8 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(BrandNotFoundException.class)
-    public String handleBrandNotFoundException(BrandNotFoundException ex, Model model) {
+    @org.springframework.web.bind.annotation.ExceptionHandler(EntityNotFoundException.class)
+    public String handleBrandNotFoundException(EntityNotFoundException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
         return "error_page";
     }

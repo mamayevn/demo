@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.Drive;
-import kg.asiamotors.demo.repasitories.DriveRepository;
+import kg.asiamotors.demo.repositories.DriveRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

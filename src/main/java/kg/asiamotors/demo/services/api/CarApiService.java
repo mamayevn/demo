@@ -2,7 +2,7 @@ package kg.asiamotors.demo.services.api;
 
 import kg.asiamotors.demo.dto.CarDTO;
 import kg.asiamotors.demo.models.Car;
-import kg.asiamotors.demo.repasitories.CarRepository;
+import kg.asiamotors.demo.repositories.CarRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
 package kg.asiamotors.demo.services;
 
 import kg.asiamotors.demo.models.Volume;
-import kg.asiamotors.demo.repasitories.VolumeRepository;
+import kg.asiamotors.demo.repositories.VolumeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
