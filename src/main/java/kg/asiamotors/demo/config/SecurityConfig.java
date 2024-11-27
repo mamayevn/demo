@@ -26,17 +26,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/auth/**", "/login"))
+                        .ignoringRequestMatchers("/**", "/login"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/login").permitAll()
-                        .requestMatchers("/add_brand", "/sales/add", "/models/add_model").authenticated()
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/**").permitAll()
+//                        .requestMatchers("/add_brand", "/sales/add", "/models/add_model").authenticated()
                         .anyRequest().authenticated()
                 )
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);  // Добавляем фильтр для JWT
+                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
