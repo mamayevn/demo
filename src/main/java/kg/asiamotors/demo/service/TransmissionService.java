@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.TransmissionDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Transmission;
 import kg.asiamotors.demo.repository.TransmissionRepository;
 import org.springframework.data.domain.Page;
@@ -28,14 +29,14 @@ public class TransmissionService {
     }
 
     public ResponseEntity<TransmissionDTO> getTransmissionById(int id) {
-        Transmission transmission = findById(id);
-        if (transmission != null) {
-            return ResponseEntity.ok(new TransmissionDTO(
-                    transmission.getId(),
-                    transmission.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        Transmission transmission = transmissionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
+
+        return ResponseEntity.ok(new TransmissionDTO(
+                transmission.getId(),
+                transmission.getName()));
     }
+
 
     public ResponseEntity<TransmissionDTO> createTransmission(TransmissionDTO transmissionDTO) {
         Transmission transmission = new Transmission();
@@ -49,33 +50,34 @@ public class TransmissionService {
     }
 
     public ResponseEntity<TransmissionDTO> updateTransmission(int id, TransmissionDTO transmissionDTO) {
-        Transmission existingTransmission = findById(id);
-        if (existingTransmission != null) {
-            existingTransmission.setName(transmissionDTO.getName());
-            save(existingTransmission);
+        Transmission existingTransmission = transmissionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
 
-            return ResponseEntity.ok(new TransmissionDTO(
-                    existingTransmission.getId(),
-                    existingTransmission.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        existingTransmission.setName(transmissionDTO.getName());
+        transmissionRepository.save(existingTransmission);
+
+        return ResponseEntity.ok(new TransmissionDTO(
+                existingTransmission.getId(),
+                existingTransmission.getName()));
     }
+
 
     public ResponseEntity<Void> deleteTransmission(int id) {
-        Transmission existingTransmission = findById(id);
-        if (existingTransmission != null) {
-            delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        Transmission existingTransmission = transmissionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
+
+        transmissionRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
 
     private void save(Transmission transmission) {
         transmissionRepository.save(transmission);
     }
 
     public Transmission findById(int id) {
-        return transmissionRepository.findById(id).orElse(null);
+        return transmissionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
     }
 
     private void delete(int id) {

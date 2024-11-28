@@ -33,7 +33,6 @@ public class CarController {
     public ResponseEntity<Page<CarDTO>> getAllCarDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
                                                      @RequestParam(name = "limit", defaultValue = "10") int limit) {
         return ResponseEntity.ok(carService.getAllCarDto(offset, limit));
-
     }
 
     @PostMapping("/add")

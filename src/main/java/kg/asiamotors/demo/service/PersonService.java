@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.PersonDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Person;
 import kg.asiamotors.demo.repository.PersonRepository;
 import org.springframework.data.domain.Page;
@@ -29,10 +30,9 @@ public class PersonService {
     }
 
     public PersonDTO getPersonById(int id) {
-        Person person = personRepository.findById(id).orElse(null);
-        if (person == null) {
-            return null;
-        }
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Человек с id " + id + " не найден"));
+
         return new PersonDTO(person.getId(), person.getName(), person.getAge(), person.getEmail());
     }
 
@@ -46,25 +46,27 @@ public class PersonService {
     }
 
     public PersonDTO updatePerson(int id, PersonDTO personDTO) {
-        Person existingPerson = personRepository.findById(id).orElse(null);
-        if (existingPerson == null) {
-            return null;
-        }
+        Person existingPerson = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Человек с id " + id + " не найден"));
+
         existingPerson.setName(personDTO.getName());
         existingPerson.setAge(personDTO.getAge());
         existingPerson.setEmail(personDTO.getEmail());
+
         Person updatedPerson = personRepository.save(existingPerson);
+
         return new PersonDTO(updatedPerson.getId(), updatedPerson.getName(), updatedPerson.getAge(), updatedPerson.getEmail());
     }
 
+
     public boolean deletePerson(int id) {
-        Person existingPerson = personRepository.findById(id).orElse(null);
-        if (existingPerson == null) {
-            return false;
-        }
+        Person existingPerson = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Человек с id " + id + " не найден"));
+
         personRepository.deleteById(id);
         return true;
     }
+
     public List<PersonDTO> searchPersonsByName(String name) {
         List<Person> persons = personRepository.findByNameContainingIgnoreCase(name);
         return persons.stream()

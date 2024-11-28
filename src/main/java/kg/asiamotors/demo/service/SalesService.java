@@ -1,5 +1,6 @@
 package kg.asiamotors.demo.service;
 
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Sale;
 import kg.asiamotors.demo.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ public class SalesService {
     }
 
     public Sale findById(int id) {
-        return saleRepository.findById(id).orElse(null);
+        return saleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продажа с id " + id + " не найдена"));
     }
 
     public void save(Sale sale) {

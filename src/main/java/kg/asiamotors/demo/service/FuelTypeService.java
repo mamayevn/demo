@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.FuelTypeDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.FuelType;
 import kg.asiamotors.demo.repository.FuelTypeRepository;
 import org.springframework.data.domain.Page;
@@ -27,11 +28,11 @@ public class FuelTypeService {
     }
 
     public ResponseEntity<FuelTypeDTO> getFuelTypeById(int id) {
-        FuelType fuelType = fuelTypeRepository.findById(id).orElse(null);
-        if (fuelType != null) {
-            return ResponseEntity.ok(new FuelTypeDTO(fuelType.getId(), fuelType.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        FuelType fuelType = fuelTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
+
+        FuelTypeDTO fuelTypeDTO = new FuelTypeDTO(fuelType.getId(), fuelType.getName());
+        return ResponseEntity.ok(fuelTypeDTO);
     }
 
     public ResponseEntity<FuelTypeDTO> createFuelType(FuelTypeDTO fuelTypeDTO) {
@@ -42,26 +43,30 @@ public class FuelTypeService {
     }
 
     public ResponseEntity<FuelTypeDTO> updateFuelType(int id, FuelTypeDTO fuelTypeDTO) {
-        FuelType existingFuelType = fuelTypeRepository.findById(id).orElse(null);
-        if (existingFuelType != null) {
-            existingFuelType.setName(fuelTypeDTO.getName());
-            fuelTypeRepository.save(existingFuelType);
-            return ResponseEntity.ok(new FuelTypeDTO(existingFuelType.getId(), existingFuelType.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        FuelType existingFuelType = fuelTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
+
+        existingFuelType.setName(fuelTypeDTO.getName());
+        fuelTypeRepository.save(existingFuelType);
+
+        FuelTypeDTO updatedFuelTypeDTO = new FuelTypeDTO(existingFuelType.getId(), existingFuelType.getName());
+        return ResponseEntity.ok(updatedFuelTypeDTO);
     }
 
+
     public ResponseEntity<Void> deleteFuelType(int id) {
-        FuelType existingFuelType = fuelTypeRepository.findById(id).orElse(null);
-        if (existingFuelType != null) {
-            fuelTypeRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        FuelType existingFuelType = fuelTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
+
+        fuelTypeRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
     public FuelType findById(int id) {
-        return fuelTypeRepository.findById(id).orElse(null);
+        return fuelTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
     }
+
     public List<FuelTypeDTO> searchFuelTypesByName(String name) {
         return fuelTypeRepository.findByName(name)
                 .stream()

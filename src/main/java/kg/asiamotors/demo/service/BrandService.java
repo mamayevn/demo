@@ -26,7 +26,8 @@ public class BrandService {
 
     public Brand findById(int id) {
         log.info("Поиск бренда по id {} ", id);
-        return brandRepository.findById(id).orElse(null);
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Бренд с id " + id + " не найден"));
     }
 
     public Page<BrandDTO> findAllBrandDtos(int offset, int limit) {

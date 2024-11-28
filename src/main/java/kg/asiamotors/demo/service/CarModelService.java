@@ -1,10 +1,10 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.CarModelDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.CarModel;
 import kg.asiamotors.demo.repository.CarModelRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,18 +59,19 @@ public class CarModelService {
     }
 
     public CarModel updateCarModel(int id, CarModelDTO carModelDTO) {
-        CarModel existingModel = carModelRepository.findById(id).orElse(null);
-        if (existingModel != null) {
-            existingModel.setName(carModelDTO.getName());
-            existingModel.setBrand(brandService.findById(carModelDTO.getBrandId()));
-            existingModel.setVolume(volumeApiService.findById(carModelDTO.getVolumeId()));
-            existingModel.setTransmission(transmissionService.findById(carModelDTO.getTransmissionId()));
-            existingModel.setDrive(driveService.findEntityById(carModelDTO.getDriveId()));
-            existingModel.setFuelType(fuelTypeService.findById(carModelDTO.getFuelTypeId()));
-            return carModelRepository.save(existingModel);
-        }
-        return null;
+        CarModel existingModel = carModelRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Модель автомобиля с id " + id + " не найдена"));
+
+        existingModel.setName(carModelDTO.getName());
+        existingModel.setBrand(brandService.findById(carModelDTO.getBrandId()));
+        existingModel.setVolume(volumeApiService.findById(carModelDTO.getVolumeId()));
+        existingModel.setTransmission(transmissionService.findById(carModelDTO.getTransmissionId()));
+        existingModel.setDrive(driveService.findEntityById(carModelDTO.getDriveId()));
+        existingModel.setFuelType(fuelTypeService.findById(carModelDTO.getFuelTypeId()));
+
+        return carModelRepository.save(existingModel);
     }
+
 
     public boolean deleteCarModel(int id) {
         if (carModelRepository.existsById(id)) {

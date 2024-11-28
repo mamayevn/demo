@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.VolumeDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Volume;
 import kg.asiamotors.demo.repository.VolumeRepository;
 import org.springframework.data.domain.Page;
@@ -29,20 +30,13 @@ public class VolumeService {
 
     public ResponseEntity<VolumeDTO> getVolumeById(int id) {
         Volume volume = findById(id);
-        if (volume != null) {
-            return ResponseEntity.ok(new VolumeDTO(
-                    volume.getId(),
-                    volume.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(new VolumeDTO(volume.getId(), volume.getName()));
     }
 
     public ResponseEntity<VolumeDTO> createVolume(VolumeDTO volumeDTO) {
         Volume volume = new Volume();
         volume.setName(volumeDTO.getName());
-
         save(volume);
-
         return ResponseEntity.ok(new VolumeDTO(
                 volume.getId(),
                 volume.getName()));
@@ -50,24 +44,18 @@ public class VolumeService {
 
     public ResponseEntity<VolumeDTO> updateVolume(int id, VolumeDTO volumeDTO) {
         Volume existingVolume = findById(id);
-        if (existingVolume != null) {
-            existingVolume.setName(volumeDTO.getName());
-            save(existingVolume);
 
-            return ResponseEntity.ok(new VolumeDTO(
-                    existingVolume.getId(),
-                    existingVolume.getName()));
-        }
-        return ResponseEntity.notFound().build();
+        existingVolume.setName(volumeDTO.getName());
+        save(existingVolume);
+
+        return ResponseEntity.ok(new VolumeDTO(existingVolume.getId(), existingVolume.getName()));
     }
+
 
     public ResponseEntity<Void> deleteVolume(int id) {
         Volume existingVolume = findById(id);
-        if (existingVolume != null) {
-            delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private void save(Volume volume) {
@@ -75,8 +63,10 @@ public class VolumeService {
     }
 
     public Volume findById(int id) {
-        return volumeRepository.findById(id).orElse(null);
+        return volumeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Объем с id " + id + " не найден"));
     }
+
 
     private void delete(int id) {
         volumeRepository.deleteById(id);

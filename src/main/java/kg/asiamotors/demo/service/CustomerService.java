@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.CustomerDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Customer;
 import kg.asiamotors.demo.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +33,17 @@ public class CustomerService {
 
     public CustomerDTO updateCustomer(int id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElse(null);
-        if (existingCustomer == null) {
-            return null;
-        }
+                .orElseThrow(() -> new ResourceNotFoundException("Клиент с id " + id + " не найден"));
+
         existingCustomer.setFirstName(customerDTO.getFirstName());
         existingCustomer.setLastName(customerDTO.getLastName());
         existingCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
         existingCustomer.setEmail(customerDTO.getEmail());
         existingCustomer.setOccupation(customerDTO.getOccupation());
         existingCustomer.setBirthDate(customerDTO.getBirthDate());
+
         existingCustomer = customerRepository.save(existingCustomer);
+
         return convertToDTO(existingCustomer);
     }
 
@@ -54,9 +55,11 @@ public class CustomerService {
     }
 
     public CustomerDTO findCustomerById(int id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        return customer == null ? null : convertToDTO(customer);
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Клиент с id " + id + " не найден"));
+        return convertToDTO(customer);
     }
+
 
     public boolean deleteCustomer(int id) {
         if (!customerRepository.existsById(id)) {

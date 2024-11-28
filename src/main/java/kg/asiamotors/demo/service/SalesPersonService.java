@@ -1,6 +1,7 @@
 package kg.asiamotors.demo.service;
 
 import kg.asiamotors.demo.dto.SalesPersonDTO;
+import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.SalesPerson;
 import kg.asiamotors.demo.repository.SalesPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +36,16 @@ public class SalesPersonService {
     }
 
     public SalesPersonDTO findSalespersonById(int id) {
-        Optional<SalesPerson> salesPersonOptional = salesPersonRepository.findById(id);
-        if (salesPersonOptional.isPresent()) {
-            SalesPerson salesPerson = salesPersonOptional.get();
-            return new SalesPersonDTO(
-                    salesPerson.getId(),
-                    salesPerson.getFirstName(),
-                    salesPerson.getLastName(),
-                    salesPerson.getPhoneNumber(),
-                    salesPerson.getEmail(),
-                    salesPerson.getPosition());
-        }
-        return null;
+        SalesPerson salesPerson = salesPersonRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продавец с id " + id + " не найден"));
+
+        return new SalesPersonDTO(
+                salesPerson.getId(),
+                salesPerson.getFirstName(),
+                salesPerson.getLastName(),
+                salesPerson.getPhoneNumber(),
+                salesPerson.getEmail(),
+                salesPerson.getPosition());
     }
 
     public SalesPersonDTO createSalesPerson(SalesPersonDTO salesPersonDTO) {
@@ -69,26 +68,24 @@ public class SalesPersonService {
     }
 
     public SalesPersonDTO updateSalesPerson(int id, SalesPersonDTO salesPersonDTO) {
-        Optional<SalesPerson> existingSalesPersonOptional = salesPersonRepository.findById(id);
-        if (existingSalesPersonOptional.isPresent()) {
-            SalesPerson existingSalesPerson = existingSalesPersonOptional.get();
-            existingSalesPerson.setFirstName(salesPersonDTO.getFirstName());
-            existingSalesPerson.setLastName(salesPersonDTO.getLastName());
-            existingSalesPerson.setPhoneNumber(salesPersonDTO.getPhoneNumber());
-            existingSalesPerson.setEmail(salesPersonDTO.getEmail());
-            existingSalesPerson.setPosition(salesPersonDTO.getPosition());
+        SalesPerson existingSalesPerson = salesPersonRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продавец с id " + id + " не найден"));
 
-            salesPersonRepository.save(existingSalesPerson);
+        existingSalesPerson.setFirstName(salesPersonDTO.getFirstName());
+        existingSalesPerson.setLastName(salesPersonDTO.getLastName());
+        existingSalesPerson.setPhoneNumber(salesPersonDTO.getPhoneNumber());
+        existingSalesPerson.setEmail(salesPersonDTO.getEmail());
+        existingSalesPerson.setPosition(salesPersonDTO.getPosition());
 
-            return new SalesPersonDTO(
-                    existingSalesPerson.getId(),
-                    existingSalesPerson.getFirstName(),
-                    existingSalesPerson.getLastName(),
-                    existingSalesPerson.getPhoneNumber(),
-                    existingSalesPerson.getEmail(),
-                    existingSalesPerson.getPosition());
-        }
-        return null;
+        salesPersonRepository.save(existingSalesPerson);
+
+        return new SalesPersonDTO(
+                existingSalesPerson.getId(),
+                existingSalesPerson.getFirstName(),
+                existingSalesPerson.getLastName(),
+                existingSalesPerson.getPhoneNumber(),
+                existingSalesPerson.getEmail(),
+                existingSalesPerson.getPosition());
     }
 
     public boolean deleteSalesPerson(int id) {
