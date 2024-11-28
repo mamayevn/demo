@@ -31,7 +31,8 @@ public class CustomerService {
     }
 
     public CustomerDTO updateCustomer(int id, CustomerDTO customerDTO) {
-        Customer existingCustomer = customerRepository.findById(id).orElse(null);
+        Customer existingCustomer = customerRepository.findById(id)
+                .orElse(null);
         if (existingCustomer == null) {
             return null;
         }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,5 +23,6 @@ public class Brand {
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<CarModel> models = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package kg.asiamotors.demo.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -25,6 +27,7 @@ public class GlobalExceptionHandler {
         errorDetails.put("timestamp", LocalDateTime.now());
         errorDetails.put("message", ex.getMessage());
         errorDetails.put("status", HttpStatus.NOT_FOUND.value());
+        log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
     }
     @ExceptionHandler(Exception.class)

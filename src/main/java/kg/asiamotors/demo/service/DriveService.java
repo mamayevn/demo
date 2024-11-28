@@ -28,7 +28,6 @@ public class DriveService {
     public Drive findEntityById(int id) {
         return driveRepository.findById(id).orElse(null);
     }
-    // Новый метод для поиска по ID
     public DriveDTO findById(int id) {
         Drive drive = driveRepository.findById(id).orElse(null);
         if (drive != null) {

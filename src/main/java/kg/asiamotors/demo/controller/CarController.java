@@ -29,6 +29,7 @@ public class CarController {
     }
 
     @GetMapping("/page")
+    @Operation(summary = "Получение списка машин c пагинацией")
     public ResponseEntity<Page<CarDTO>> getAllCarDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
                                                      @RequestParam(name = "limit", defaultValue = "10") int limit) {
         return ResponseEntity.ok(carService.getAllCarDto(offset, limit));
@@ -36,18 +37,21 @@ public class CarController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "Создание машины")
     public ResponseEntity<CarDTO> createCar(@RequestBody CarDTO carDTO) {
         CarDTO createdCar = carService.createCar(carDTO);
         return ResponseEntity.ok(createdCar);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Обновление машины")
     public ResponseEntity<CarDTO> updateCar(@PathVariable int id, @RequestBody CarDTO carDTO) {
         CarDTO updatedCar = carService.updateCar(id, carDTO);
         return ResponseEntity.ok(updatedCar);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Удалить машину")
     public ResponseEntity<Void> deleteCar(@PathVariable int id) {
         if (!carService.deleteCar(id)) {
             return ResponseEntity.notFound().build();
@@ -56,6 +60,7 @@ public class CarController {
     }
 
     @GetMapping("/search")
+    @Operation(summary = "Поиск автомобиля")
     public ResponseEntity<List<CarDTO>> searchCarsByBrand(@RequestParam("brand") String brand) {
         List<CarDTO> cars = carService.searchCarsByBrand(brand);
         if (cars.isEmpty()) {
