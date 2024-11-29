@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Person {
     @Id
-    @Column(name = "person_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
