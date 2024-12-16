@@ -4,6 +4,9 @@ import kg.asiamotors.demo.dto.CarModelDTO;
 import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.CarModel;
 import kg.asiamotors.demo.repository.CarModelRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +34,7 @@ public class CarModelService {
         this.driveService = driveService;
         this.fuelTypeService = fuelTypeService;
     }
-
+    @Cacheable(value = "carModels")
     public List<CarModelDTO> getAllCarModels() {
         return carModelRepository.findAll().stream()
                 .map(carModel -> {
@@ -47,6 +50,7 @@ public class CarModelService {
                 .collect(Collectors.toList());
     }
 
+    @CachePut(value = "carModels", key = "#result.id")
     public CarModel createCarModel(CarModelDTO carModelDTO) {
         CarModel carModel = new CarModel();
         carModel.setName(carModelDTO.getName());
@@ -58,6 +62,7 @@ public class CarModelService {
         return carModelRepository.save(carModel);
     }
 
+    @CachePut(value = "carModels", key = "#id")
     public CarModel updateCarModel(int id, CarModelDTO carModelDTO) {
         CarModel existingModel = carModelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Модель автомобиля с id " + id + " не найдена"));
@@ -72,7 +77,7 @@ public class CarModelService {
         return carModelRepository.save(existingModel);
     }
 
-
+    @CacheEvict(value = "carModels", key = "#id")
     public boolean deleteCarModel(int id) {
         if (carModelRepository.existsById(id)) {
             carModelRepository.deleteById(id);

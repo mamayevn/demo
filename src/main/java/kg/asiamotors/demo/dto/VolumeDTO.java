@@ -1,7 +1,19 @@
 package kg.asiamotors.demo.dto;
 
-public class VolumeDTO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class VolumeDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
+
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
 
     public VolumeDTO() {}
@@ -15,19 +27,4 @@ public class VolumeDTO {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

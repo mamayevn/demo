@@ -28,4 +28,13 @@ public class Car {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
+
+    public Car(int id, String brand, String model, double engineVolume, int year, double price) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.engineVolume = engineVolume;
+        this.year = year;
+        this.price = price;
+    }
 }

@@ -5,6 +5,8 @@ import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.SalesPerson;
 import kg.asiamotors.demo.repository.SalesPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,7 @@ public class SalesPersonService {
         this.salesPersonRepository = salesPersonRepository;
     }
 
+    @Cacheable(value = "salespersons")
     public List<SalesPersonDTO> findAllSalespersons() {
         return salesPersonRepository.findAll()
                 .stream()
@@ -35,6 +38,7 @@ public class SalesPersonService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "salespersons", key = "#id")
     public SalesPersonDTO findSalespersonById(int id) {
         SalesPerson salesPerson = salesPersonRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продавец с id " + id + " не найден"));
@@ -48,6 +52,7 @@ public class SalesPersonService {
                 salesPerson.getPosition());
     }
 
+    @CacheEvict(value = "salespersons", allEntries = true)
     public SalesPersonDTO createSalesPerson(SalesPersonDTO salesPersonDTO) {
         SalesPerson salesPerson = new SalesPerson();
         salesPerson.setFirstName(salesPersonDTO.getFirstName());
@@ -67,6 +72,7 @@ public class SalesPersonService {
                 salesPerson.getPosition());
     }
 
+    @CacheEvict(value = "salespersons", key = "#id")
     public SalesPersonDTO updateSalesPerson(int id, SalesPersonDTO salesPersonDTO) {
         SalesPerson existingSalesPerson = salesPersonRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продавец с id " + id + " не найден"));
@@ -88,6 +94,7 @@ public class SalesPersonService {
                 existingSalesPerson.getPosition());
     }
 
+    @CacheEvict(value = "salespersons", key = "#id")
     public boolean deleteSalesPerson(int id) {
         Optional<SalesPerson> existingSalesPersonOptional = salesPersonRepository.findById(id);
         if (existingSalesPersonOptional.isPresent()) {
@@ -96,6 +103,8 @@ public class SalesPersonService {
         }
         return false;
     }
+
+    @Cacheable(value = "salespersons")
     public List<SalesPersonDTO> searchSalesPersons(String firstName, String lastName, String email) {
         return salesPersonRepository.findByFirstNameOrLastNameOrEmail(firstName, lastName, email)
                 .stream()
@@ -108,7 +117,9 @@ public class SalesPersonService {
                         salesPerson.getPosition()))
                 .collect(Collectors.toList());
     }
-    public Page<SalesPersonDTO> getAllSalesPersonDto(int offset, int limit){
+
+    @Cacheable(value = "salespersons", key = "#offset + '-' + #limit")
+    public Page<SalesPersonDTO> getAllSalesPersonDto(int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return salesPersonRepository.findAllSalesPersonDtos(pageable);
     }

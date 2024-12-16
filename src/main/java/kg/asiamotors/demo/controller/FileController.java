@@ -13,7 +13,7 @@ import java.io.File;
 @RestController
 public class FileController {
 
-    private static final String FILE_PATH = "C:/Users/NoutSpace/Desktop/Java projects/uploads";  // Убедитесь, что это правильный путь к вашей папке
+    private static final String FILE_PATH = "C:/Users/NoutSpace/Desktop/Java projects/uploads";
 
     @GetMapping("/uploads/{fileName}")
     public ResponseEntity<Resource> serveFile(@PathVariable String fileName) {

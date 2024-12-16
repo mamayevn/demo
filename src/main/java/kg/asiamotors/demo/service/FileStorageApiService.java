@@ -3,7 +3,6 @@ package kg.asiamotors.demo.service;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class FileStorageApiService {
+public abstract class FileStorageApiService {
 
     private final Path fileStorageLocation;
 
@@ -27,6 +26,15 @@ public class FileStorageApiService {
     public String storeFile(MultipartFile file) {
         try {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            if (fileName.contains("..")) {
+                throw new RuntimeException("Filename contains invalid path sequence: " + fileName);
+            }
+
+            if (!Files.exists(this.fileStorageLocation)) {
+                Files.createDirectories(this.fileStorageLocation);
+            }
+
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return fileName;
@@ -34,5 +42,7 @@ public class FileStorageApiService {
             throw new RuntimeException("Could not store file " + file.getOriginalFilename() + ". Please try again!", ex);
         }
     }
+
+    public abstract Path getFileStorageLocation();
 }
 

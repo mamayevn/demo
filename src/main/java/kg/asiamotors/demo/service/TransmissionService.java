@@ -4,6 +4,9 @@ import kg.asiamotors.demo.dto.TransmissionDTO;
 import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Transmission;
 import kg.asiamotors.demo.repository.TransmissionRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +23,7 @@ public class TransmissionService {
         this.transmissionRepository = transmissionRepository;
     }
 
+    @Cacheable(value = "transmissions")
     public List<TransmissionDTO> getAllTransmissions() {
         return transmissionRepository.findAll().stream()
                 .map(transmission -> new TransmissionDTO(
@@ -28,16 +32,15 @@ public class TransmissionService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<TransmissionDTO> getTransmissionById(int id) {
+    @Cacheable(value = "transmissions", key = "#id")
+    public TransmissionDTO getTransmissionById(int id) {
         Transmission transmission = transmissionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
 
-        return ResponseEntity.ok(new TransmissionDTO(
-                transmission.getId(),
-                transmission.getName()));
+        return new TransmissionDTO(transmission.getId(), transmission.getName());
     }
 
-
+    @CachePut(value = "transmissions", key = "#result.body.id")
     public ResponseEntity<TransmissionDTO> createTransmission(TransmissionDTO transmissionDTO) {
         Transmission transmission = new Transmission();
         transmission.setName(transmissionDTO.getName());
@@ -49,6 +52,7 @@ public class TransmissionService {
                 transmission.getName()));
     }
 
+    @CachePut(value = "transmissions", key = "#id")
     public ResponseEntity<TransmissionDTO> updateTransmission(int id, TransmissionDTO transmissionDTO) {
         Transmission existingTransmission = transmissionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
@@ -61,7 +65,7 @@ public class TransmissionService {
                 existingTransmission.getName()));
     }
 
-
+    @CacheEvict(value = "transmissions", key = "#id")
     public ResponseEntity<Void> deleteTransmission(int id) {
         Transmission existingTransmission = transmissionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
@@ -69,7 +73,6 @@ public class TransmissionService {
         transmissionRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private void save(Transmission transmission) {
         transmissionRepository.save(transmission);
@@ -80,9 +83,11 @@ public class TransmissionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Трансмиссия с id " + id + " не найдена"));
     }
 
+    @CacheEvict(value = "transmissions", allEntries = true)
     private void delete(int id) {
         transmissionRepository.deleteById(id);
     }
+
     public List<TransmissionDTO> searchTransmissionsByName(String name) {
         return transmissionRepository.findByName(name)
                 .stream()
@@ -91,7 +96,8 @@ public class TransmissionService {
                         transmission.getName()))
                 .collect(Collectors.toList());
     }
-    public Page<TransmissionDTO> getAllTransmissionDto(int offset, int limit){
+
+    public Page<TransmissionDTO> getAllTransmissionDto(int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return transmissionRepository.findAllTransmissionDtos(pageable);
     }

@@ -15,4 +15,9 @@ public class Drive {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+public Drive(int id, String name) {
+    this.id = id;
+    this.name = name;
+}
 }

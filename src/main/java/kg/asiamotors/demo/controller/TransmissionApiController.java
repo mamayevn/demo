@@ -27,10 +27,11 @@ public class TransmissionApiController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Получение списка трансмиссии по id")
     public ResponseEntity<TransmissionDTO> getTransmissionById(@PathVariable int id) {
-        return transmissionService.getTransmissionById(id);
+        TransmissionDTO transmissionDTO = transmissionService.getTransmissionById(id);
+        return ResponseEntity.ok(transmissionDTO);
     }
+
 
     @PostMapping
     @Operation(summary = "Создать трансмиссию")
@@ -57,7 +58,7 @@ public class TransmissionApiController {
     @GetMapping("page")
     @Operation(summary = "Получить трансмиссию с пагинацией")
     public ResponseEntity<Page<TransmissionDTO>> getAllTransmissionDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
-                                                                     @RequestParam(name = "limit", defaultValue = "10") int limit) {
+                                                                       @RequestParam(name = "limit", defaultValue = "10") int limit) {
         return ResponseEntity.ok(transmissionService.getAllTransmissionDto(offset, limit));
     }
 }

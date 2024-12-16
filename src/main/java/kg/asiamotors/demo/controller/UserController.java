@@ -13,9 +13,7 @@ public class UserController {
 
     @GetMapping("/addUser")
     public String addUser() {
-        // Добавляем нового пользователя
         userService.addUser("newuser", "newpassword", "ROLE_USER");
-
         return "Пользователь добавлен!";
     }
 }

@@ -4,7 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
-
+import io.jsonwebtoken.JwtException;
 import java.security.Key;
 import java.util.Date;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 часов
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -29,8 +29,13 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token) {
-        Claims claims = getClaimFromToken(token);
-        return !claims.getExpiration().before(new Date());
+        try {
+            Claims claims = getClaimFromToken(token);
+            return !claims.getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            System.out.println("Invalid token: " + e.getMessage());
+            return false;
+        }
     }
 
     private Claims getClaimFromToken(String token) {

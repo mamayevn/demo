@@ -3,7 +3,6 @@ package kg.asiamotors.demo.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Entity
@@ -26,11 +25,7 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "car_model_id", nullable = false)
     private CarModel carModel;
-
     private LocalDate saleDate;
-
     private Double salePrice;
-
     private String fileName;
-
 }

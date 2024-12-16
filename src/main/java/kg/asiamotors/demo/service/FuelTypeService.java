@@ -4,6 +4,8 @@ import kg.asiamotors.demo.dto.FuelTypeDTO;
 import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.FuelType;
 import kg.asiamotors.demo.repository.FuelTypeRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,7 @@ public class FuelTypeService {
         this.fuelTypeRepository = fuelTypeRepository;
     }
 
+    @Cacheable(value = "fuelTypes", key = "'allFuelTypes'")
     public List<FuelTypeDTO> getAllFuelTypes() {
         return fuelTypeRepository.findAll()
                 .stream()
@@ -35,6 +38,14 @@ public class FuelTypeService {
         return ResponseEntity.ok(fuelTypeDTO);
     }
 
+    @Cacheable(value = "fuelTypes", key = "#id")
+    public FuelTypeDTO getFuelTypeByIdCache(int id) {
+        FuelType fuelType = fuelTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
+        return new FuelTypeDTO(fuelType.getId(), fuelType.getName());
+    }
+
+    @CacheEvict(value = "fuelTypes", key = "'allFuelTypes'")
     public ResponseEntity<FuelTypeDTO> createFuelType(FuelTypeDTO fuelTypeDTO) {
         FuelType fuelType = new FuelType();
         fuelType.setName(fuelTypeDTO.getName());
@@ -42,6 +53,7 @@ public class FuelTypeService {
         return ResponseEntity.ok(new FuelTypeDTO(fuelType.getId(), fuelType.getName()));
     }
 
+    @CacheEvict(value = "fuelTypes", key = "#id")
     public ResponseEntity<FuelTypeDTO> updateFuelType(int id, FuelTypeDTO fuelTypeDTO) {
         FuelType existingFuelType = fuelTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
@@ -53,7 +65,7 @@ public class FuelTypeService {
         return ResponseEntity.ok(updatedFuelTypeDTO);
     }
 
-
+    @CacheEvict(value = "fuelTypes", key = "#id")
     public ResponseEntity<Void> deleteFuelType(int id) {
         FuelType existingFuelType = fuelTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
@@ -67,12 +79,14 @@ public class FuelTypeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Тип топлива с id " + id + " не найден"));
     }
 
+    @Cacheable(value = "fuelTypes", key = "#name")
     public List<FuelTypeDTO> searchFuelTypesByName(String name) {
         return fuelTypeRepository.findByName(name)
                 .stream()
                 .map(fuelType -> new FuelTypeDTO(fuelType.getId(), fuelType.getName()))
                 .collect(Collectors.toList());
     }
+    @Cacheable(value = "fuelTypes", key = "'page_' + #offset + '_'+ #limit")
     public Page<FuelTypeDTO> getAllFuelTypeDto(int offset, int limit){
         Pageable pageable = PageRequest.of(offset, limit);
         return fuelTypeRepository.findAllFuelTypeDtos(pageable);

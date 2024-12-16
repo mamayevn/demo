@@ -44,7 +44,7 @@ public class BrandController {
         return ResponseEntity.ok(brandService.createBrand(brandDTO));
     }
 
-    @Operation(summary = "Получение бренда по id ")
+    @Operation(summary = "Обновление бренда по id ")
     @PutMapping("/{id}")
     public ResponseEntity<BrandDTO> updateBrand(@PathVariable int id, @RequestBody BrandDTO brandDTO) {
         BrandDTO updatedBrand = brandService.updateBrand(id, brandDTO);

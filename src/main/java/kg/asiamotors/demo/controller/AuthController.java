@@ -38,16 +38,9 @@ public class AuthController {
     }
     @PostMapping("/register")
     public String register(@RequestBody User user) {
-        // Шифруем пароль
         String encodedPassword = passwordEncoderUtil.encode(user.getPassword());
-
-        // Устанавливаем зашифрованный пароль
         user.setPassword(encodedPassword);
-
-        // Сохраняем нового пользователя в базе данных
         userRepository.save(user);
-
         return "Пользователь зарегистрирован!";
     }
-
 }

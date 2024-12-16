@@ -4,12 +4,12 @@ import kg.asiamotors.demo.dto.CarDTO;
 import kg.asiamotors.demo.exceptions.ResourceNotFoundException;
 import kg.asiamotors.demo.models.Car;
 import kg.asiamotors.demo.repository.CarRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +23,7 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
+    @Cacheable(value = "models", key = "#root.methodName")
     public List<CarDTO> getAllCars() {
         List<Car> cars = carRepository.findAll();
         return cars.stream()
@@ -30,7 +31,8 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    public Page<CarDTO> getAllCarDto(int offset, int limit){
+    @Cacheable(value = "models", key = "#offset + '-' + #limit")
+    public Page<CarDTO> getAllCarDto(int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return carRepository.findAllCarDtos(pageable);
     }
@@ -85,6 +87,8 @@ public class CarService {
         car.setPrice(carDTO.getPrice());
         return car;
     }
+
+    @Cacheable(value = "models", key = "#brand")
     public List<CarDTO> searchCarsByBrand(String brand) {
         List<Car> cars = carRepository.findByBrand(brand);
         return cars.stream()
