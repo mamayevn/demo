@@ -58,7 +58,7 @@ public class VolumeApiController {
     @GetMapping("page")
     @Operation(summary = "Получение списка объема с пагинацией")
     public ResponseEntity<Page<VolumeDTO>> getAllVolumeDto(@RequestParam(name = "offset", defaultValue = "0") int offset,
-                                                                       @RequestParam(name = "limit", defaultValue = "10") int limit) {
+                                                           @RequestParam(name = "limit", defaultValue = "10") int limit) {
         return ResponseEntity.ok(volumeApiService.getAllVolumeDto(offset, limit));
     }
 }
